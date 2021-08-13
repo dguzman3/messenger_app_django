@@ -1,0 +1,50 @@
+{% extends '_base.html' %}
+
+<div>{% block title %}Friends{% endblock %}</div>
+
+<div>
+  {% block content %}
+
+  <h2>Friends</h2>
+  <ul>
+    {% for friend in friends %}
+    <li>
+      <h4>{{friend}}</h4>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <h2>Friend Requests</h2>
+  <ul>
+    {% for friend_request in friend_requests %}
+    <li>
+      <h4>
+        {{friend_request.from_user}}
+        <a href="/accept_friend_request/{{friend_request.id}}"
+          >accept friend request</a
+        >
+      </h4>
+    </li>
+    {% empty %}
+    <li>
+      <h4>No requests</h4>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <h3>Other Users</h3>
+  <ul class="all_users">
+    {% for user in users %}
+    <li>
+      <h4>
+        {{user}}
+        <a href="/send_friend_request/{{user.id}}/">send friend request</a>
+      </h4>
+    </li>
+    {% empty %}
+    <h4>No other users</h4>
+    {% endfor %}
+  </ul>
+
+  {% endblock %}
+</div>
