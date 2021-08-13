@@ -41,7 +41,7 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect('/')
         else:
-            messages.error(request,'username or password not correct')
+            messages.error(request, 'username or password not correct')
             return HttpResponseRedirect('/login/')    
     else:    
         return render(request, 'auth/login.html')
@@ -59,9 +59,11 @@ def send_friend_request(request, userID):
         to_user=to_user
     )
     if created:
-        return HttpResponse('friend request sent')
+        messages.error(request, 'friend request sent')
+        return HttpResponseRedirect('/friends/')
     else:
-        return HttpResponse('friend request was already sent')
+        messages.error(request, 'friend request was already sent')
+        return HttpResponseRedirect('/friends/')
 
 @login_required
 def accept_friend_request(request, requestID):
@@ -70,9 +72,13 @@ def accept_friend_request(request, requestID):
         friend_request.to_user.friends.add(friend_request.from_user)
         friend_request.from_user.friends.add(friend_request.to_user)
         friend_request.delete()
-        return HttpResponse('friend request accepted')
+
+        messages.error(request, 'friend request accepted')
+        return HttpResponseRedirect('/friends/')
     else:
-        return HttpResponse('friend request not accepted')
+        messages.error(request, 'friend request not accepted')
+        return HttpResponseRedirect('/friends/')
+
 
 @login_required
 def friend_list(request):
@@ -91,3 +97,13 @@ def friend_list(request):
             friends__id=request.user.id
         )
     return render(request, "social/friend_list.html", context)
+
+@login_required
+def remove_friend(request, userID):
+    current_user = CustomUser.objects.get(id=request.user.id)
+    friend = CustomUser.objects.get(id=userID)
+
+    current_user.friends.remove(friend)
+    friend.friends.remove(current_user)
+
+    return HttpResponseRedirect('/friends/')

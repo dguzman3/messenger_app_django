@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 django = "*"
 autopep8 = "*"
-python-dotenv = "*"
 
 [dev-packages]
 autopep8 = "*"

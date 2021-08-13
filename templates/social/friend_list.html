@@ -3,13 +3,19 @@
 <div>{% block title %}Friends{% endblock %}</div>
 
 <div>
-  {% block content %}
+  {% block content %} {% for message in messages %}
+  <div class="alert alert-success">
+    <a class="close" href="#" data-dismiss="alert">×</a>
+    {{ message }}
+  </div>
+  {% endfor %}
 
   <h2>Friends</h2>
   <ul>
     {% for friend in friends %}
     <li>
       <h4>{{friend}}</h4>
+      <a href="/remove_friend/{{friend.id}}">Remove</a>
     </li>
     {% endfor %}
   </ul>
