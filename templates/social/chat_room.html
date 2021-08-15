@@ -1,0 +1,18 @@
+{% extends '_base.html' %}
+
+<div>{% block title %}Chat Room{% endblock %}</div>
+
+<div>
+  {% block content %} {% for chat in chats %}
+  <p>{{chat.text}}</p>
+  {% empty %}
+  <p>No chats yet</p>
+  {% endfor %}
+
+  <form method="POST">
+    {% csrf_token %} {{form.as_p}}
+    <input type="submit" value="Submit" />
+  </form>
+
+  {% endblock %}
+</div>

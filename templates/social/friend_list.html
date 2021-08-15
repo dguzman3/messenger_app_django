@@ -15,6 +15,7 @@
     {% for friend in friends %}
     <li>
       <h4>{{friend}}</h4>
+      <a href="/chat/{{friend.id}}">Message</a>
       <a href="/remove_friend/{{friend.id}}">Remove</a>
     </li>
     {% endfor %}
